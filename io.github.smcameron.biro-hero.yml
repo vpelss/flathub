@@ -1,0 +1,53 @@
+id: io.github.smcameron.biro-hero
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: snis.sh
+
+finish-args:
+  - --socket=x11
+  - --share=ipc
+  - --device=dri
+  - --share=network
+  - --socket=pulseaudio
+
+cleanup:
+  - '/patches'
+
+modules:
+
+  - name: portaudio
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    sources:
+      - type: git
+        url: https://github.com/PortAudio/portaudio.git
+        tag: v19.7.0
+        commit: 147dd722548358763a8b649b3e4b41dfffbcfbb6
+
+  - shared-modules/lua5.3/lua-5.3.5.json
+  - shared-modules/glu/glu-9.json
+  #- shared-modules/glew/glew.json
+
+  - name: biro-hero
+    buildsystem: simple
+    build-commands:
+      #- make install PREFIX=${FLATPAK_DEST} WITHVOICECHAT=yes 
+      - install -Dm755 snis_build.sh ${FLATPAK_DEST}/bin/snis_build.sh # x86_64 or aarch64 builds differ
+      - ${FLATPAK_DEST}/bin/snis_build.sh #make is handled in snis_build.sh
+      - install -Dm0644 share/applications/${FLATPAK_ID}.svg "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
+      - install -Dm0644 share/metainfo/${FLATPAK_ID}.metainfo.xml.template "${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml.template"
+      - install -Dm0644 share/applications/${FLATPAK_ID}.desktop "${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
+      - install -Dm755 snis.sh ${FLATPAK_DEST}/bin/snis.sh
+    sources:
+      - type: script
+        dest-filename: snis.sh
+        commands:
+          - cd /app/bin
+          - exec ./snis_client --fullscreen --auto-download-assets
+      - type: git
+        url: https://github.com/smcameron/biro-hero.git
+        commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
+
+
