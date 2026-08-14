@@ -26,13 +26,14 @@ modules:
         tag: v19.7.0
         commit: 147dd722548358763a8b649b3e4b41dfffbcfbb6
 
-  - shared-modules/lua5.3/lua-5.3.5.json
-  - shared-modules/glu/glu-9.json
+  #- shared-modules/lua5.3/lua-5.3.5.json
+  #- shared-modules/glu/glu-9.json
   #- shared-modules/glew/glew.json
 
   - name: biro-hero
     buildsystem: simple
     build-commands:
+      #- ls bsd
       - ls -all
       #- patch < biro-strlcpy-patch.txt
       - make
@@ -54,4 +55,4 @@ modules:
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
 
       - type: patch
-        path: ./biro-strlcpy-patch.txt
+        path: wwviaudio.txt
