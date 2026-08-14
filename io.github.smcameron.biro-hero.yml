@@ -33,6 +33,8 @@ modules:
   - name: biro-hero
     buildsystem: simple
     build-commands:
+      - ls -all
+      #- patch < biro-strlcpy-patch.txt
       - make
       #- install -Dm755 snis_build.sh ${FLATPAK_DEST}/bin/snis_build.sh # x86_64 or aarch64 builds differ
       #- ${FLATPAK_DEST}/bin/snis_build.sh #make is handled in snis_build.sh
@@ -41,6 +43,7 @@ modules:
       #- install -Dm0644 share/applications/${FLATPAK_ID}.desktop "${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
       - install -Dm755 snis.sh ${FLATPAK_DEST}/bin/snis.sh
     sources:
+
       - type: script
         dest-filename: snis.sh
         commands:
@@ -50,4 +53,5 @@ modules:
         url: https://github.com/smcameron/biro-hero.git
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
 
-
+      - type: patch
+        path: ./biro-strlcpy-patch.txt
