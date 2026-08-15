@@ -2,7 +2,7 @@ id: io.github.smcameron.biro-hero
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
-command: snis.sh
+command: biro-hero.sh
 
 finish-args:
   - --socket=x11
@@ -33,26 +33,24 @@ modules:
   - name: biro-hero
     buildsystem: simple
     build-commands:
-      #- ls bsd
       - ls -all
-      #- patch < biro-strlcpy-patch.txt
       - make
-      #- install -Dm755 snis_build.sh ${FLATPAK_DEST}/bin/snis_build.sh # x86_64 or aarch64 builds differ
-      #- ${FLATPAK_DEST}/bin/snis_build.sh #make is handled in snis_build.sh
-      #- install -Dm0644 share/applications/${FLATPAK_ID}.svg "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
+      - install -Dm0755 biro-hero ${FLATPAK_DEST}/bin/biro-hero
+      - cp -r images ${FLATPAK_DEST}/bin/images
+      - cp -r sounds ${FLATPAK_DEST}/bin/sounds
+      - install -Dm0644 level-items.txt ${FLATPAK_DEST}/bin/level-items.txt
       #- install -Dm0644 share/metainfo/${FLATPAK_ID}.metainfo.xml.template "${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml.template"
       #- install -Dm0644 share/applications/${FLATPAK_ID}.desktop "${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
-      - install -Dm755 snis.sh ${FLATPAK_DEST}/bin/snis.sh
+      - install -Dm755 biro-hero.sh ${FLATPAK_DEST}/bin/biro-hero.sh
+      - ls -all ${FLATPAK_DEST}
     sources:
-
       - type: script
-        dest-filename: snis.sh
+        dest-filename: biro-hero.sh
         commands:
           - cd /app/bin
           - exec ./biro-hero
       - type: git
         url: https://github.com/smcameron/biro-hero.git
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
-
       - type: patch
         path: wwaviaudio_c.patch
