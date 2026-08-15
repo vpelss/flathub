@@ -1,0 +1,20 @@
+diff --git a/wwviaudio.c b/wwviaudio.c
+index d92f3b2..58f2a17 100644
+--- a/wwviaudio.c
++++ b/wwviaudio.c
+@@ -142,6 +142,7 @@ static struct audio_queue_entry *audio_queue = NULL;
+ static struct audio_queue_entry *audio_chain_head[WWVIAUDIO_CHAIN_COUNT] = { 0 };
+ static struct audio_queue_entry *audio_chain_tail[WWVIAUDIO_CHAIN_COUNT] = { 0 };
+ 
++/*
+ static size_t strlcpy(char *dest, const char *src, size_t n)
+ {
+ 	size_t i;
+@@ -164,6 +165,7 @@ static size_t strlcpy(char *dest, const char *src, size_t n)
+ 			break;
+ 	return i;
+ }
++*/
+ 
+ int wwviaudio_read_ogg_clip_into_allocated_buffer(char *filename, int16_t **sample, int *nsamples)
+ {

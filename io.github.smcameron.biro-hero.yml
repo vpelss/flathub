@@ -55,4 +55,4 @@ modules:
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
 
       - type: patch
-        path: wwviaudio.txt
+        path: wwaviaudio_c.patch
