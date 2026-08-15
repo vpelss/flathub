@@ -6,10 +6,10 @@ command: biro-hero.sh
 
 finish-args:
   - --socket=x11
-  - --share=ipc
-  - --device=dri
-  - --share=network
   - --socket=pulseaudio
+  #- --share=ipc
+  #- --device=dri
+  #- --share=network
 
 cleanup:
   - '/patches'
@@ -26,23 +26,18 @@ modules:
         tag: v19.7.0
         commit: 147dd722548358763a8b649b3e4b41dfffbcfbb6
 
-  #- shared-modules/lua5.3/lua-5.3.5.json
-  #- shared-modules/glu/glu-9.json
-  #- shared-modules/glew/glew.json
-
   - name: biro-hero
     buildsystem: simple
     build-commands:
-      - ls -all
       - make
       - install -Dm0755 biro-hero ${FLATPAK_DEST}/bin/biro-hero
       - cp -r images ${FLATPAK_DEST}/bin/images
       - cp -r sounds ${FLATPAK_DEST}/bin/sounds
       - install -Dm0644 level-items.txt ${FLATPAK_DEST}/bin/level-items.txt
+      - install -Dm755 biro-hero.sh ${FLATPAK_DEST}/bin/biro-hero.sh
+      #- install -Dm0644 share/applications/${FLATPAK_ID}.svg "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
       #- install -Dm0644 share/metainfo/${FLATPAK_ID}.metainfo.xml.template "${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml.template"
       #- install -Dm0644 share/applications/${FLATPAK_ID}.desktop "${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
-      - install -Dm755 biro-hero.sh ${FLATPAK_DEST}/bin/biro-hero.sh
-      - ls -all ${FLATPAK_DEST}
     sources:
       - type: script
         dest-filename: biro-hero.sh
@@ -53,4 +48,4 @@ modules:
         url: https://github.com/smcameron/biro-hero.git
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
       - type: patch
-        path: wwaviaudio_c.patch
+        path: patches/wwaviaudio_c.patch
