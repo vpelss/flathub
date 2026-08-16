@@ -1,9 +1,25 @@
+#https://docs.flatpak.org/en/latest/manifests.html#
+
+# build using: 
+# flatpak-builder --user --keep-build-dirs --force-clean --install-deps-from=flathub --install /home/adsiltia/builddir /home/adsiltia/flathub/io.github.smcameron.biro-hero.yml
+# --state-dir=/home/adsiltia/.flatpak-builder not required as .flatpak-builder is default state directory
+# --repo=/home/adsiltia/biro_repo is only required if you need a local repositoy copy eg: you are not using --install
+# --keep-build-dirs is handy to inspect the built flatpak image file structure to troubleshoot
+# --force-clean deletes build directory first. A good idea to avoid confusion...
+# --install-deps-from=flathub not needed IF sdk is already installed. Just leave it
+
+#this will be the flatpack name shown under 'flatpak list'
 id: io.github.smcameron.biro-hero
+# these are found at https://docs.flatpak.org/en/latest/available-runtimes.html
 runtime: org.freedesktop.Platform
+# https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/releases
 runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
+# this will be the exec file name and is in /app/bin in the flatpak image 
+#(note that on wsl2 if I built using "flatpak run org.flatpak.Builder" I will get coimmand not found error, so I use flatpak-builder)
 command: biro-hero.sh
 
+#grant permission outside flatpak sandbox as required
 finish-args:
   - --socket=x11
   - --socket=pulseaudio
@@ -11,13 +27,12 @@ finish-args:
   #- --device=dri
   #- --share=network
 
+# delete uneeded files in flatpak image
 cleanup:
-  - '/patches'
+ # - '/patches'
 
-#sources:
- # - type: file
-  #  path: applications/${FLATPAK_ID}.svg
-
+# modules are first built in .flatpak-builder/build
+# all sources for a module are downloaded to the same shared area
 modules:
 
   - name: portaudio
@@ -29,6 +44,15 @@ modules:
         url: https://github.com/PortAudio/portaudio.git
         tag: v19.7.0
         commit: 147dd722548358763a8b649b3e4b41dfffbcfbb6
+
+  # if shared modules exist use them
+  # listed at https://github.com/flathub/shared-modules.git
+  # https://docs.flathub.org/docs/for-app-authors/shared-modules
+  # !!! add them by going in your flatpak manifest directory then git submodule add https://github.com/flathub/shared-modules.git
+  # eg:
+  #- shared-modules/lua5.3/lua-5.3.5.json
+  #- shared-modules/glu/glu-9.json
+  #- shared-modules/glew/glew.json
 
   - name: biro-hero
     buildsystem: simple
@@ -48,13 +72,13 @@ modules:
         commands:
           - cd /app/bin
           - exec ./biro-hero
-        #dest: /app/bin
+        #dest: files
       - type: git
         url: https://github.com/smcameron/biro-hero.git
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
       - type: patch
         path: patches/wwaviaudio_c.patch
-      #- type: git
+      # cannot use env ${} here
       - type: file
         path: applications/io.github.smcameron.biro-hero.svg
       - type: file
