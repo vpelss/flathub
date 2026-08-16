@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=Space Nerds in Space
-GenericName=Space Nerds in Space
-Comment=Networked spaceship bridge simulator
-Exec=snis_client --fullscreen --auto-download-assets
-Icon=io.github.smcameron.space-nerds-in-space.svg
+Name=Biro-Hero
+GenericName=Biro Hero
+Comment=Army men game on paper
+Exec=biro-hero.sh
+Icon=io.github.smcameron.biro-hero.svg
 Terminal=false
 Type=Application
 Categories=Game;

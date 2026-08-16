@@ -1,16 +1,16 @@
 <component type="desktop-application">
-  <id>io.github.smcameron.space-nerds-in-space</id>
+  <id>io.github.smcameron.biro-hero</id>
 
-  <name>Space Nerds in Space</name>
-  <summary>Spaceship bridge simulator</summary>
+  <name>Biro Hero</name>
+  <summary>Army men gaqme on paper</summary>
 
-  <url type="homepage">https://smcameron.github.io/space-nerds-in-space</url>
+  <url type="homepage">https://smcameron.github.io/biro-hero</url>
 
   <content_rating type="oars-1.0">
     <content_attribute id="social-chat">moderate</content_attribute>
   </content_rating>
 
-<developer id="io.github.smcameron.space-nerds-in-space"><name>Stephen M. Cameron</name></developer>
+<developer id="io.github.smcameron.biro-hero"><name>Stephen M. Cameron</name></developer>
 
 <icon type="remote">https://spacenerdsinspace.com/snis-asset-archives/io.github.smcameron.space-nerds-in-space.svg</icon>
 

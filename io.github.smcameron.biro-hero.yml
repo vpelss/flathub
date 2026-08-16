@@ -14,6 +14,10 @@ finish-args:
 cleanup:
   - '/patches'
 
+#sources:
+ # - type: file
+  #  path: applications/${FLATPAK_ID}.svg
+
 modules:
 
   - name: portaudio
@@ -35,17 +39,27 @@ modules:
       - cp -r sounds ${FLATPAK_DEST}/bin/sounds
       - install -Dm0644 level-items.txt ${FLATPAK_DEST}/bin/level-items.txt
       - install -Dm755 biro-hero.sh ${FLATPAK_DEST}/bin/biro-hero.sh
-      #- install -Dm0644 share/applications/${FLATPAK_ID}.svg "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg"
-      #- install -Dm0644 share/metainfo/${FLATPAK_ID}.metainfo.xml.template "${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml.template"
-      #- install -Dm0644 share/applications/${FLATPAK_ID}.desktop "${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop"
+      - install -Dm0644 ${FLATPAK_ID}.svg "${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/"
+      #- install -Dm0644 ${FLATPAK_ID}.desktop "${FLATPAK_DEST}/share/applications/"
+      #- install -Dm0644 ${FLATPAK_ID}.metainfo.xml "${FLATPAK_DEST}/share/metainfo/"
     sources:
       - type: script
-        dest-filename: biro-hero.sh
+        #dest-filename: ${FLATPAK_DEST}/bin/biro-hero.sh
         commands:
           - cd /app/bin
           - exec ./biro-hero
+        dest: biro-hero.sh
       - type: git
         url: https://github.com/smcameron/biro-hero.git
         commit: 63ba7f2151c43e842ca0099b83d3abfd15d171d1
       - type: patch
         path: patches/wwaviaudio_c.patch
+      #- type: git
+        
+      - type: file
+        path: applications/io.github.smcameron.biro-hero.svg
+      #- type: file
+       # path: applications/${FLATPAK_ID}.desktop
+      #- type: file
+       # path: metainfo/${FLATPAK_ID.metainfo.xml
+
